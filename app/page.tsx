@@ -3,78 +3,22 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-const flavors = [
-  { name: "Original", note: "Timeless taste. Pure energy.", color: "#16469a" },
-  { name: "Watermelon", note: "A cool kick of clarity.", color: "#ef3340" },
-  { name: "Red Grape", note: "Bold depth. Instantly memorable.", color: "#7257a8" },
-];
+type Language = "tr" | "en";
+const copy = {
+  en: { nav:["Flavours","Our energy","Collective","Contact"], menu:"Menu", close:"Close", licensed:"Official licensed product · FC Barcelona", hero:["FEEL THE","POWER","OF BARÇA."], lead:"The passion in the stands. The charge before kick-off. Bottled for every day.", discover:"Discover the lineup", scroll:"Scroll to charge", momentum:["250 ML","PURE","MOMENTUM"], ticker:"VISCA EL BARÇA · FEEL THE POWER · VISCA EL BARÇA · FEEL THE POWER · ", lineup:"01 / THE LINEUP", lineupTitle:["THREE FLAVOURS.","ONE CREST."], current:"Current selection", cold:"Serve ice cold. Turn the volume up.", energy:"02 / OUR ENERGY", energyTitle:["MORE THAN","A DRINK.","A FEELING."], statement:"Built for late nights, early starts and every minute that matters. A bold taste for people who never watch life from the sidelines.", collective:"03 / THE COLLECTIVE", collectiveTitle:["ONE BADGE.","ENDLESS","OBSESSION."], collectiveBody:"From matchday energy to objects of desire, the crest lives wherever ambition does.", enter:"Enter the world", ready:["READY TO","FEEL IT?"], footer:["Official FC Barcelona licensed product.","Made for the energy of the game."], flavors:[{name:"Original",note:"Timeless taste. Pure energy.",color:"#16469a"},{name:"Watermelon",note:"A cool kick of clarity.",color:"#ef3340"},{name:"Red Grape",note:"Bold depth. Instantly memorable.",color:"#7257a8"}] },
+  tr: { nav:["Aromalar","Enerjimiz","Koleksiyon","İletişim"], menu:"Menü", close:"Kapat", licensed:"Resmi lisanslı ürün · FC Barcelona", hero:["BARÇA'NIN","GÜCÜNÜ","HİSSET."], lead:"Tribündeki tutku. Başlama düdüğünden önceki heyecan. Her güne taşınan saf enerji.", discover:"Aromaları keşfet", scroll:"Enerjiye kaydır", momentum:["250 ML","SAF","ENERJİ"], ticker:"VISCA EL BARÇA · GÜCÜ HİSSET · VISCA EL BARÇA · GÜCÜ HİSSET · ", lineup:"01 / AROMALAR", lineupTitle:["ÜÇ CESUR TAT.","TEK ARMA."], current:"Seçili aroma", cold:"Buz gibi servis et. Sesi sonuna kadar aç.", energy:"02 / ENERJİMİZ", energyTitle:["BİR İÇECEKTEN","DAHA FAZLASI.","BİR TUTKU."], statement:"Geç biten geceler, erken başlayan sabahlar ve önemli her dakika için üretildi. Hayatı kenardan izlemeyenlere cesur bir tat.", collective:"03 / KOLEKSİYON", collectiveTitle:["TEK ARMA.","SONSUZ","TUTKU."], collectiveBody:"Maç günü enerjisinden arzu nesnelerine; bu arma, hırsın ve cesaretin olduğu her yerde yaşar.", enter:"Dünyaya katıl", ready:["HİSSETMEYE","HAZIR MISIN?"], footer:["Resmi FC Barcelona lisanslı ürünü.","Oyunun enerjisi için üretildi."], flavors:[{name:"Original",note:"Zamansız tat. Saf enerji.",color:"#16469a"},{name:"Karpuz",note:"Ferah ve net bir enerji vuruşu.",color:"#ef3340"},{name:"Kırmızı Üzüm",note:"Yoğun karakter. Unutulmaz tat.",color:"#7257a8"}] }
+} as const;
+const reveal={initial:{opacity:0,y:48},whileInView:{opacity:1,y:0},viewport:{once:true,amount:.2},transition:{duration:.8,ease:[.22,1,.36,1] as const}};
 
-const reveal = {
-  initial: { opacity: 0, y: 48 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.8, ease: [0.22, 1, 0.36, 1] as const },
-};
-
-export default function Home() {
-  const [flavor, setFlavor] = useState(1);
-  const [menu, setMenu] = useState(false);
-  const active = flavors[flavor];
-
-  return (
-    <main className="min-h-screen overflow-x-hidden bg-[#031126] text-[#f4f0e8]" style={{ "--accent": active.color } as React.CSSProperties}>
-      <nav className="nav flex items-center justify-between">
-        <a className="brand" href="#top" aria-label="Barça Energy home"><span>BARÇA</span><b>ENERGY</b></a>
-        <div className={`navlinks items-center ${menu ? "open" : ""}`}>
-          <a href="#flavors" onClick={() => setMenu(false)}>Flavours</a>
-          <a href="#story" onClick={() => setMenu(false)}>Our energy</a>
-          <a href="#collective" onClick={() => setMenu(false)}>Collective</a>
-          <a href="#contact" onClick={() => setMenu(false)}>Contact</a>
-        </div>
-        <button className="menu" onClick={() => setMenu(!menu)} aria-label="Toggle menu">{menu ? "Close" : "Menu"}</button>
-      </nav>
-
-      <section className="hero" id="top">
-        <div className="heroGlow" />
-        <motion.div className="heroCopy" initial={{opacity:0,y:40}} animate={{opacity:1,y:0}} transition={{duration:.85,ease:[.22,1,.36,1]}}>
-          <p className="eyebrow">Official licensed product · FC Barcelona</p>
-          <h1>FEEL THE<br/><i>POWER</i><br/>OF BARÇA.</h1>
-          <p className="lead">The passion in the stands. The charge before kick-off. Bottled for every day.</p>
-          <a className="cta" href="#flavors">Discover the lineup <span>↘</span></a>
-        </motion.div>
-        <motion.div className="heroProduct" initial={{opacity:0,scale:.88,rotate:3}} animate={{opacity:1,scale:1,rotate:0}} transition={{duration:1.15,delay:.15,ease:[.22,1,.36,1]}}>
-          <div className="orbit orbitOne"/><div className="orbit orbitTwo"/>
-          <img src="/assets/cans.jpeg" alt="Barça Energy Original, Watermelon and Red Grape cans" />
-          <span className="productTag">250 ML<br/>PURE<br/>MOMENTUM</span>
-        </motion.div>
-        <div className="scroll">SCROLL TO CHARGE <span>↓</span></div>
-      </section>
-
-      <section className="ticker" aria-label="Brand statement"><div>VISCA EL BARÇA · FEEL THE POWER · VISCA EL BARÇA · FEEL THE POWER · </div></section>
-
-      <section className="flavors" id="flavors">
-        <motion.div className="sectionHead" {...reveal}><p>01 / THE LINEUP</p><h2>THREE FLAVOURS.<br/><em>ONE CREST.</em></h2></motion.div>
-        <div className="flavorStage">
-          <div className="flavorVisual"><AnimatePresence mode="wait"><motion.div key={active.name} className="grid h-full w-full place-items-center" initial={{opacity:0,x:45,scale:.94}} animate={{opacity:1,x:0,scale:1}} exit={{opacity:0,x:-45,scale:.94}} transition={{duration:.45,ease:[.22,1,.36,1]}}><span className="bigNumber">0{flavor + 1}</span><img src="/assets/cans.jpeg" alt={`${active.name} energy drink`} /></motion.div></AnimatePresence></div>
-          <motion.div className="flavorInfo" {...reveal}>
-            <p className="eyebrow">Current selection</p><h3>{active.name}</h3><p>{active.note}</p>
-            <div className="flavorBtns">{flavors.map((item, i) => <button key={item.name} className={i === flavor ? "active" : ""} onClick={() => setFlavor(i)}><span style={{background:item.color}} />{item.name}</button>)}</div>
-            <p className="fine">Serve ice cold. Turn the volume up.</p>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="manifesto" id="story">
-        <img src="/assets/team-hero.png" alt="FC Barcelona players and Barça Energy" />
-        <motion.div className="manifestoOverlay" {...reveal}><p>02 / OUR ENERGY</p><h2>MORE THAN<br/>A DRINK.<br/><i>A FEELING.</i></h2><p className="statement">Built for late nights, early starts and every minute that matters. A bold taste for people who never watch life from the sidelines.</p></motion.div>
-      </section>
-
-      <section className="collective" id="collective">
-        <motion.div className="watch" initial={{opacity:0,scale:.9}} whileInView={{opacity:1,scale:1}} viewport={{once:true,amount:.25}} transition={{duration:1}}><motion.img whileHover={{scale:1.04,rotate:-2}} transition={{type:"spring",stiffness:120}} src="/assets/watch.jpeg" alt="FC Barcelona anniversary watch" /></motion.div>
-        <motion.div className="collectiveCopy" {...reveal}><p>03 / THE COLLECTIVE</p><h2>ONE BADGE.<br/><i>ENDLESS<br/>OBSESSION.</i></h2><p>From matchday energy to objects of desire, the crest lives wherever ambition does.</p><a href="#contact">Enter the world <span>↗</span></a></motion.div>
-      </section>
-
-      <footer id="contact"><div><span className="footerMark">BARÇA<br/><b>ENERGY</b></span><h2>READY TO<br/>FEEL IT?</h2></div><div className="footerLinks"><a href="mailto:info@neweramerch.com">INFO@NEWERAMERCH.COM ↗</a><p>Official FC Barcelona licensed product.<br/>Made for the energy of the game.</p><small>© 2026 BARÇA ENERGY</small></div></footer>
-    </main>
-  );
+export default function Home(){
+  const[language,setLanguage]=useState<Language>("tr"); const[flavor,setFlavor]=useState(1); const[menu,setMenu]=useState(false); const t=copy[language]; const active=t.flavors[flavor];
+  return <main lang={language} className="min-h-screen overflow-x-hidden bg-[#031126] text-[#f4f0e8]" style={{"--accent":active.color} as React.CSSProperties}>
+    <nav className="nav flex items-center justify-between"><a className="brand" href="#top" aria-label="Barça Energy"><span>BARÇA</span><b>ENERGY</b></a><div className={`navlinks items-center ${menu?"open":""}`}>{["#flavors","#story","#collective","#contact"].map((href,i)=><a key={href} href={href} onClick={()=>setMenu(false)}>{t.nav[i]}</a>)}</div><div className="languageSwitch" aria-label="Dil seçimi">{(["tr","en"] as Language[]).map(lang=><button key={lang} className={language===lang?"active":""} onClick={()=>setLanguage(lang)} aria-pressed={language===lang}>{lang.toUpperCase()}</button>)}</div><button className="menu" onClick={()=>setMenu(!menu)}>{menu?t.close:t.menu}</button></nav>
+    <section className="hero" id="top"><div className="heroGlow"/><AnimatePresence mode="wait"><motion.div key={language} className="heroCopy" initial={{opacity:0,y:35}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-20}} transition={{duration:.65,ease:[.22,1,.36,1]}}><p className="eyebrow">{t.licensed}</p><h1>{t.hero[0]}<br/><i>{t.hero[1]}</i><br/>{t.hero[2]}</h1><p className="lead">{t.lead}</p><a className="cta" href="#flavors">{t.discover}<span>↘</span></a></motion.div></AnimatePresence><motion.div className="heroProduct" initial={{opacity:0,scale:.88,rotate:3}} animate={{opacity:1,scale:1,rotate:0}} transition={{duration:1.15,delay:.15}}><div className="orbit orbitOne"/><div className="orbit orbitTwo"/><img src="/assets/cans.jpeg" alt="Barça Energy cans"/><span className="productTag">{t.momentum.map(x=><span key={x}>{x}<br/></span>)}</span></motion.div><div className="scroll">{t.scroll} <span>↓</span></div></section>
+    <section className="ticker"><div>{t.ticker}</div></section>
+    <section className="flavors" id="flavors"><motion.div className="sectionHead" {...reveal}><p>{t.lineup}</p><h2>{t.lineupTitle[0]}<br/><em>{t.lineupTitle[1]}</em></h2></motion.div><div className="flavorStage"><div className="flavorVisual"><AnimatePresence mode="wait"><motion.div key={`${language}-${active.name}`} className="grid h-full w-full place-items-center" initial={{opacity:0,x:45,scale:.94}} animate={{opacity:1,x:0,scale:1}} exit={{opacity:0,x:-45,scale:.94}} transition={{duration:.45}}><span className="bigNumber">0{flavor+1}</span><img src="/assets/cans.jpeg" alt={`${active.name} energy drink`}/></motion.div></AnimatePresence></div><motion.div className="flavorInfo" {...reveal}><p className="eyebrow">{t.current}</p><h3>{active.name}</h3><p>{active.note}</p><div className="flavorBtns">{t.flavors.map((item,i)=><button key={item.name} className={i===flavor?"active":""} onClick={()=>setFlavor(i)}><span style={{background:item.color}}/>{item.name}</button>)}</div><p className="fine">{t.cold}</p></motion.div></div></section>
+    <section className="manifesto" id="story"><img src="/assets/team-hero.png" alt="FC Barcelona players and Barça Energy"/><motion.div className="manifestoOverlay" {...reveal}><p>{t.energy}</p><h2>{t.energyTitle[0]}<br/>{t.energyTitle[1]}<br/><i>{t.energyTitle[2]}</i></h2><p className="statement">{t.statement}</p></motion.div></section>
+    <section className="collective" id="collective"><motion.div className="watch" initial={{opacity:0,scale:.9}} whileInView={{opacity:1,scale:1}} viewport={{once:true,amount:.25}}><motion.img whileHover={{scale:1.04,rotate:-2}} src="/assets/watch.jpeg" alt="FC Barcelona anniversary watch"/></motion.div><motion.div className="collectiveCopy" {...reveal}><p>{t.collective}</p><h2>{t.collectiveTitle[0]}<br/><i>{t.collectiveTitle[1]}<br/>{t.collectiveTitle[2]}</i></h2><p>{t.collectiveBody}</p><a href="#contact">{t.enter}<span>↗</span></a></motion.div></section>
+    <footer id="contact"><div><span className="footerMark">BARÇA<br/><b>ENERGY</b></span><h2>{t.ready[0]}<br/>{t.ready[1]}</h2></div><div className="footerLinks"><a href="mailto:info@neweramerch.com">INFO@NEWERAMERCH.COM ↗</a><p>{t.footer[0]}<br/>{t.footer[1]}</p><small>© 2026 BARÇA ENERGY</small></div></footer>
+  </main>;
 }
