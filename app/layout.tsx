@@ -6,10 +6,13 @@ const display = Archivo_Black({ variable: "--font-display", subsets: ["latin"], 
 const body = Inter({ variable: "--font-body", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Barça Energy — Feel the Power",
-  description: "The official FC Barcelona energy drink. Three bold flavours, one unmistakable crest.",
+  title: "Barça Energy — Gücü Hisset",
+  description: "FC Barcelona'nın resmi enerji içeceği. Üç iddialı aroma, tek ikonik arma.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body className={`${display.variable} ${body.variable}`}>{children}</body></html>;
+  return <html lang="tr"><body className={`${display.variable} ${body.variable}`}>{children}</body></html>;
 }
